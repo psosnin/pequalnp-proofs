@@ -1,5 +1,7 @@
 import PEqualNP.Defs
 
+namespace PEqualNP.Outside.L_meta_11159_aux
+
 open PEqualNP.CircuitLowerBounds
 
 -- The gate-list induction adapts the project proof in L_meta_2462.lean.
@@ -58,6 +60,9 @@ private theorem scan_gate {α : Type} (step : List α → Gate → α) (gs : Lis
 private def boolStep (w : List Bool) (g : Gate) : Bool :=
   g.op.eval (g.inputs.map fun i => w.getD i false)
 
+end PEqualNP.Outside.L_meta_11159_aux
+
+open PEqualNP.Outside.L_meta_11159_aux PEqualNP.CircuitLowerBounds in
 theorem PEqualNP.Outside.L_meta_11159 : ∀ (x1 : ℕ) (x2 : PEqualNP.CircuitLowerBounds.Circuit),   (∀ (x3 : ℕ) (x4 : PEqualNP.CircuitLowerBounds.Gate), x2.gates[x3]? = Option.some x4 → (x4.op = PEqualNP.CircuitLowerBounds.GateOp.and ∨ x4.op = PEqualNP.CircuitLowerBounds.GateOp.or) ∧ ∃ (x6 : ℕ) (x7 : ℕ), x4.inputs = [x6, x7] ∧ x6 ≠ x7 ∧ x6 < x1 + x3 ∧ x7 < x1 + x3) →     ∀ (x4 x5 : Fin x1 → Bool) (x6 : ℕ → ℕ),       (∀ (x7 : Fin x1), x4 x7 = Bool.true → x6 ↑x7 = (0 : ℕ)) →         (∀ (x8 : Fin x1), x5 x8 = Bool.true → x6 ↑x8 ≤ (1 : ℕ)) →           (∀ (x9 : ℕ) (x10 : PEqualNP.CircuitLowerBounds.Gate) (x11 x12 : ℕ), x2.gates[x9]? = Option.some x10 → x10.inputs = [x11, x12] → (x10.op = PEqualNP.CircuitLowerBounds.GateOp.and → x6 (x1 + x9) ≤ x6 x11 + x6 x12) ∧ (x10.op = PEqualNP.CircuitLowerBounds.GateOp.or → x6 (x1 + x9) ≤ Min.min (x6 x11) (x6 x12))) →             ∃ (x10 : ℕ → Bool),               (∀ (x11 : Fin x1), x10 ↑x11 = x5 x11) ∧                 (∀ (x11 : ℕ) (x12 : PEqualNP.CircuitLowerBounds.Gate) (x13 x14 : ℕ),                     x2.gates[x11]? = Option.some x12 →                       x12.inputs = [x13, x14] →                         have x17 : List Bool := x2.wires (List.ofFn x4);                         (x12.op = PEqualNP.CircuitLowerBounds.GateOp.and → x10 (x1 + x11) = (x17.getD x13 Bool.false && x10 x14 || x10 x13 && x17.getD x14 Bool.false)) ∧ (x12.op = PEqualNP.CircuitLowerBounds.GateOp.or → x10 (x1 + x11) = (x10 x13 || x10 x14))) ∧                   ∀ (x11 : ℕ), x10 x11 = Bool.true → x6 x11 ≤ (1 : ℕ) := by
   classical
   intro N C shape base seed d baseCost seedCost gateCost
